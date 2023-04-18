@@ -1,7 +1,7 @@
 from promptgenerator import PromptGenerator
 
 
-def get_prompt():
+def get_prompt(hint:str="GPT"):
     """
     This function generates a prompt string that includes various constraints, commands, resources, and performance evaluations.
 
@@ -22,10 +22,10 @@ def get_prompt():
     commands = [
         ("Google Search", "google", {"input": "<search>"}),
         ("Browse Website", "browse_website", {"url": "<url>", "question": "<what_you_want_to_find_on_website>"}),
-        ("Start GPT Agent", "start_agent", {"name": "<name>", "task": "<short_task_desc>", "prompt": "<prompt>"}),
-        ("Message GPT Agent", "message_agent", {"key": "<key>", "message": "<message>"}),
-        ("List GPT Agents", "list_agents", {}),
-        ("Delete GPT Agent", "delete_agent", {"key": "<key>"}),
+        (f"Start {hint} Agent", "start_agent", {"name": "<name>", "task": "<short_task_desc>", "prompt": "<prompt>"}),
+        (f"Message {hint} Agent", "message_agent", {"key": "<key>", "message": "<message>"}),
+        (f"List {hint} Agents", "list_agents", {}),
+        (f"Delete {hint} Agent", "delete_agent", {"key": "<key>"}),
         ("Write to file", "write_to_file", {"file": "<file>", "text": "<text>"}),
         ("Read file", "read_file", {"file": "<file>"}),
         ("Append to file", "append_to_file", {"file": "<file>", "text": "<text>"}),

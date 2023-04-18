@@ -20,7 +20,6 @@ from prompt import get_prompt
 
 cfg = Config()
 
-
 def check_openai_api_key():
     """Check if the OpenAI API key is set in config.py or as an environment variable."""
     if not cfg.openai_api_key:
@@ -56,7 +55,7 @@ def attempt_to_fix_json_by_finding_outermost_brackets(json_string):
         if cfg.speak_mode:
             speak.say_text("Didn't work. I will have to ignore this response then.")
         logger.error("Error: Invalid JSON, setting it to empty JSON now.\n")
-        json_string = {}
+        json_string = "{}"
 
     return json_string
 
@@ -81,6 +80,7 @@ def print_assistant_thoughts(assistant_reply):
             except json.JSONDecodeError as e:
                 logger.error("Error: Invalid JSON\n", assistant_reply)
                 assistant_reply_json = attempt_to_fix_json_by_finding_outermost_brackets(assistant_reply_json)
+                assistant_reply_json = json.loads(assistant_reply_json)
 
         assistant_thoughts_reasoning = None
         assistant_thoughts_plan = None
@@ -142,7 +142,7 @@ def construct_prompt():
 Name:  {config.ai_name}
 Role:  {config.ai_role}
 Goals: {config.ai_goals}
-Continue (y/n): """)
+Continue (y/n): """, cfg.ai_hint)
         if should_continue.lower() == "n":
             config = AIConfig()
 
@@ -154,7 +154,7 @@ Continue (y/n): """)
     global ai_name
     ai_name = config.ai_name
 
-    full_prompt = config.construct_full_prompt()
+    full_prompt = config.construct_full_prompt(cfg.ai_hint)
     return full_prompt
 
 
@@ -163,7 +163,7 @@ def prompt_user():
     ai_name = ""
     # Construct the prompt
     logger.typewriter_log(
-        "Welcome to Auto-GPT! ",
+        "Welcome to Auto-" + cfg.ai_hint + "! ",
         Fore.GREEN,
         "Enter the name of your AI and its role below. Entering nothing will load defaults.",
         speak_text=True)
@@ -172,10 +172,10 @@ def prompt_user():
     logger.typewriter_log(
         "Name your AI: ",
         Fore.GREEN,
-        "For example, 'Entrepreneur-GPT'")
-    ai_name = utils.clean_input("AI Name: ")
+        "For example, 'Entrepreneur-" + cfg.ai_hint + "'")
+    ai_name = utils.clean_input("AI Name: ", cfg.ai_hint)
     if ai_name == "":
-        ai_name = "Entrepreneur-GPT"
+        ai_name = "Entrepreneur-" + cfg.ai_hint
 
     logger.typewriter_log(
         f"{ai_name} here!",
@@ -188,7 +188,7 @@ def prompt_user():
         "Describe your AI's role: ",
         Fore.GREEN,
         "For example, 'an AI designed to autonomously develop and run businesses with the sole goal of increasing your net worth.'")
-    ai_role = utils.clean_input(f"{ai_name} is: ")
+    ai_role = utils.clean_input(f"{ai_name} is: ", cfg.ai_hint)
     if ai_role == "":
         ai_role = "an AI designed to autonomously develop and run businesses with the sole goal of increasing your net worth."
 
@@ -200,7 +200,7 @@ def prompt_user():
     print("Enter nothing to load defaults, enter nothing when finished.", flush=True)
     ai_goals = []
     for i in range(5):
-        ai_goal = utils.clean_input(f"{Fore.LIGHTBLUE_EX}Goal{Style.RESET_ALL} {i+1}: ")
+        ai_goal = utils.clean_input(f"{Fore.LIGHTBLUE_EX}Goal{Style.RESET_ALL} {i+1}: ", cfg.ai_hint)
         if ai_goal == "":
             break
         ai_goals.append(ai_goal)
@@ -282,7 +282,7 @@ def main():
     logger.set_level(logging.DEBUG if cfg.debug_mode else logging.INFO)
     ai_name = ""
     prompt = construct_prompt()
-    # print(prompt)
+    print(f"[:> prompt <:]\n\n{prompt}\n\n====    ----    ====")
     # Initialize variables
     full_message_history = []
     result = None
@@ -374,7 +374,7 @@ class Agent:
                     f"Enter 'y' to authorise command, 'y -N' to run N continuous commands, 'n' to exit program, or enter feedback for {self.ai_name}...",
                     flush=True)
                 while True:
-                    console_input = utils.clean_input(Fore.MAGENTA + "Input:" + Style.RESET_ALL)
+                    console_input = utils.clean_input(Fore.MAGENTA + "Input:" + Style.RESET_ALL, cfg.ai_hint)
                     if console_input.lower().rstrip() == "y":
                         self.user_input = "GENERATE NEXT COMMAND JSON"
                         break

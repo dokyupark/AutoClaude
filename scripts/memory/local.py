@@ -4,11 +4,12 @@ from typing import Any, List, Optional
 import numpy as np
 import os
 from memory.base import MemoryProviderSingleton, get_ada_embedding
-
+from config import Config
 
 EMBED_DIM = 1536
 SAVE_OPTIONS = orjson.OPT_SERIALIZE_NUMPY | orjson.OPT_SERIALIZE_DATACLASS
 
+cfg = Config()
 
 def create_default_embeddings():
     return np.zeros((0, EMBED_DIM)).astype(np.float32)
@@ -57,6 +58,9 @@ class LocalCache(MemoryProviderSingleton):
         if 'Command Error:' in text:
             return ""
         self.data.texts.append(text)
+
+        if cfg.use_claude:
+            return text
 
         embedding = get_ada_embedding(text)
 
@@ -109,6 +113,9 @@ class LocalCache(MemoryProviderSingleton):
 
         Returns: List[str]
         """
+        if cfg.use_claude:
+            return []
+
         embedding = get_ada_embedding(text)
 
         scores = np.dot(self.data.embeddings, embedding)

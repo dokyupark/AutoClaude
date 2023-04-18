@@ -1,8 +1,8 @@
-def clean_input(prompt: str=''):
+def clean_input(prompt: str='', hint: str="GPT"):
     try:
         return input(prompt)
     except KeyboardInterrupt:
-        print("You interrupted Auto-GPT")
+        print(f"You interrupted Auto-{hint}")
         print("Quitting...")
         exit(0)
 
