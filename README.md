@@ -1,16 +1,15 @@
-# Auto-GPT: An Autonomous GPT-4 Experiment
+# Auto-Claude
 
 ![GitHub Repo stars](https://img.shields.io/github/stars/Torantulino/auto-gpt?style=social)
 [![Twitter Follow](https://img.shields.io/twitter/follow/siggravitas?style=social)](https://twitter.com/SigGravitas)
 [![Discord Follow](https://dcbadge.vercel.app/api/server/autogpt?style=flat)](https://discord.gg/autogpt)
 [![Unit Tests](https://github.com/Torantulino/Auto-GPT/actions/workflows/ci.yml/badge.svg)](https://github.com/Torantulino/Auto-GPT/actions/workflows/ci.yml)
 
+This project is based on [AutoGPT](https://github.com/Significant-Gravitas/Auto-GPT).
+
+What I've done is add a new AI-Layer, which communicate with Claude instead of ChatGPT, so this branch of AutoGPT could be called as **AutoClaude**.
+
 Auto-GPT is an experimental open-source application showcasing the capabilities of the GPT-4 language model. This program, driven by GPT-4, chains together LLM "thoughts", to autonomously achieve whatever goal you set. As one of the first examples of GPT-4 running fully autonomously, Auto-GPT pushes the boundaries of what is possible with AI.
-
-## Info (23/04/18):
-
-Add a new AI-Layer which can use Claude instead of ChatGPT.
-The Claude-version AutoGPT could be called as **AutoClaude**.
 
 ### Demo (30/03/2023):
 
