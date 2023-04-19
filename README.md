@@ -55,12 +55,12 @@ Development of this free, open-source project is made possible by all the <a hre
 
 ## AutoClaude Log
 
--	2023/04/17\\\\
+-	2023/04/17<br/>
 	Fork from AutoGPT
 	Add a new AI-Layer for Claude
 -	2023/04/18<br/>
 	Merge with the latest 'master' branch of AutoGPT
--	2023/04/19\\\\
+-	2023/04/19<br/>
 	Fix the JSON format error in Claude's reply
 
 ## 🚀 Features
