@@ -24,7 +24,8 @@ What I've done is add a new AI-Layer, which communicate with Claude instead of C
 **MENTION:** due to Claude doesn't support Embedding which could be used in ChatGPT, so please use `no_memory` mode:
 
 ```
-python -m autogpt --no_memory
+(in .env)
+MEMORY_BACKEND=no_memory
 ```
 
 ----
