@@ -21,7 +21,7 @@ This project is based on [AutoGPT](https://github.com/Significant-Gravitas/Auto-
 
 What I've done is add a new AI-Layer, which communicate with Claude instead of ChatGPT, so this branch of AutoGPT could be called as **AutoClaude**.
 
-MENTION: due to Claude doesn't support Embedding which could be used in ChatGPT, so please use `no_memory` mode:
+**MENTION:** due to Claude doesn't support Embedding which could be used in ChatGPT, so please use `no_memory` mode:
 
 ```
 python -m autogpt --no_memory
@@ -55,12 +55,12 @@ Development of this free, open-source project is made possible by all the <a hre
 
 ## AutoClaude Log
 
--	2023/04/17\\
+-	2023/04/17\\\\
 	Fork from AutoGPT
 	Add a new AI-Layer for Claude
--	2023/04/18\\
+-	2023/04/18<br/>
 	Merge with the latest 'master' branch of AutoGPT
--	2023/04/19\\
+-	2023/04/19\\\\
 	Fix the JSON format error in Claude's reply
 
 ## 🚀 Features
