@@ -3,7 +3,7 @@ from colorama import Fore, Style
 from autogpt.app import execute_command, get_command
 from autogpt.chat import chat_with_ai, create_chat_message
 from autogpt.config import Config
-from autogpt.json_fixes.master_json_fix_method import fix_json_using_multiple_techniques
+from autogpt.json_fixes.master_json_fix_method import fix_json_using_multiple_techniques, prefix_json
 from autogpt.json_validation.validate_json import validate_json
 from autogpt.logs import logger, print_assistant_thoughts
 from autogpt.speech import say_text
@@ -60,6 +60,7 @@ class Agent:
         while True:
             # Discontinue if continuous limit is reached
             loop_count += 1
+            print(f"\n==== ---- Loop {loop_count} ---- ====\n")
             if (
                 cfg.continuous_mode
                 and cfg.continuous_limit > 0
@@ -71,6 +72,10 @@ class Agent:
                 break
 
             # Send message to AI, get response
+            # print("\n:::: .... Step A .... ::::\n")
+            # print(self.system_prompt)
+            # print("\n~~~~ ++++ Step B ++++ ~~~~\n")
+            # print(self.triggering_prompt)
             with Spinner("Thinking... "):
                 assistant_reply = chat_with_ai(
                     self.system_prompt,
@@ -79,8 +84,14 @@ class Agent:
                     self.memory,
                     cfg.fast_token_limit,
                 )  # TODO: This hardcodes the model to use GPT3.5. Make this an argument
+                assistant_reply = prefix_json(assistant_reply)
+            # print("\n>>>> >>>> Step 1 <<<< <<<<\n")
+            # print(assistant_reply)
 
             assistant_reply_json = fix_json_using_multiple_techniques(assistant_reply)
+            # print("\n>>>> >>>> Step 2 <<<< <<<<\n")
+            # print(assistant_reply_json)
+            # print(">>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
             # Print Assistant thoughts
             if assistant_reply_json != {}:
@@ -185,13 +196,9 @@ class Agent:
 
             # Check if there's a result from the command append it to the message
             # history
-            if result is not None:
-                self.full_message_history.append(create_chat_message("system", result))
-                logger.typewriter_log("SYSTEM: ", Fore.YELLOW, result)
-            else:
-                self.full_message_history.append(
-                    create_chat_message("system", "Unable to execute command")
-                )
-                logger.typewriter_log(
-                    "SYSTEM: ", Fore.YELLOW, "Unable to execute command"
-                )
+            if result == None:
+                result = "Unable to execute command"
+            self.full_message_history.append(create_chat_message("system", result))
+            logger.typewriter_log("SYSTEM:", Fore.YELLOW, result)
+            # if loop_count == 1:
+            #     break;

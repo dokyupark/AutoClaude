@@ -4,6 +4,11 @@ from __future__ import annotations
 import json
 from typing import Any
 
+def index2text(idx) -> str:
+    s = f"{idx}"
+    if idx < 10:
+        s = " " + s
+    return s
 
 class PromptGenerator:
     """
@@ -110,7 +115,7 @@ class PromptGenerator:
         """
         if item_type == "command":
             return "\n".join(
-                f"{i+1}. {self._generate_command_string(item)}"
+                f"{index2text(i+1)}. {self._generate_command_string(item)}"
                 for i, item in enumerate(items)
             )
         else:
@@ -134,5 +139,6 @@ class PromptGenerator:
             f"{self._generate_numbered_list(self.performance_evaluation)}\n\n"
             "You should only respond in JSON format as described below \nResponse"
             f" Format: \n{formatted_response_format} \nEnsure the response can be"
-            " parsed by Python json.loads"
+            " parsed by Python json.loads. Note in particular that all keys and values"
+            " in JSON objects must use double quotes and must not use single quotes."
         )

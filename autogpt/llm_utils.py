@@ -106,9 +106,11 @@ def create_chat_completion(
     num_retries = 10
     warned_user = False
     if CFG.debug_mode:
+        hint_model = CFG.claude_mode if CFG.use_claude else model
+        hint_temp = CFG.claude_temperature if CFG.use_claude else temperature
         print(
             Fore.GREEN
-            + f"Creating chat completion with model {model}, temperature {temperature},"
+            + f"Creating chat completion with model {hint_model}, temperature {hint_temp},"
             f" max_tokens {max_tokens}" + Fore.RESET
         )
     for attempt in range(num_retries):

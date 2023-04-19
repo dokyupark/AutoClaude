@@ -10,7 +10,9 @@ cfg = Config()
 
 def get_ada_embedding(text):
     text = text.replace("\n", " ")
-    if cfg.use_azure:
+    if cfg.use_claude:
+        return [text]
+    elif cfg.use_azure:
         return openai.Embedding.create(
             input=[text],
             engine=cfg.get_azure_deployment_id_for_model("text-embedding-ada-002"),

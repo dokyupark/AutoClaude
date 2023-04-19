@@ -76,9 +76,6 @@ class LocalCache(MemoryProviderSingleton):
             return ""
         self.data.texts.append(text)
 
-        if cfg.use_claude:
-            return text
-
         embedding = create_embedding_with_ada(text)
 
         vector = np.array(embedding).astype(np.float32)
@@ -127,8 +124,6 @@ class LocalCache(MemoryProviderSingleton):
 
         Returns: List[str]
         """
-        if cfg.use_claude:
-            return []
 
         embedding = create_embedding_with_ada(text)
 

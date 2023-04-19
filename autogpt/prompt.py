@@ -139,7 +139,7 @@ def get_prompt() -> str:
     )
     prompt_generator.add_resource("Long Term memory management.")
     prompt_generator.add_resource(
-        "GPT-3.5 powered Agents for delegation of simple tasks."
+        CFG.ai_hint + " powered Agents for delegation of simple tasks."
     )
     prompt_generator.add_resource("File output.")
 
@@ -163,7 +163,7 @@ def get_prompt() -> str:
     return prompt_generator.generate_prompt_string()
 
 
-def construct_prompt() -> str:
+def construct_prompt():
     """Construct the prompt for the AI to respond to
 
     Returns:
@@ -199,4 +199,5 @@ Continue (y/n): """
     global ai_name
     ai_name = config.ai_name
 
-    return config.construct_full_prompt()
+    # return config.construct_full_prompt()
+    return config

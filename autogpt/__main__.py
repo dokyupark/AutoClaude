@@ -20,8 +20,9 @@ def main() -> None:
     check_openai_api_key()
     parse_arguments()
     logger.set_level(logging.DEBUG if cfg.debug_mode else logging.INFO)
-    ai_name = ""
-    system_prompt = construct_prompt()
+    config = construct_prompt()
+    ai_name = config.ai_name
+    system_prompt = config.construct_full_prompt()
     # print(prompt)
     # Initialize variables
     full_message_history = []
